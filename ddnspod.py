@@ -36,15 +36,11 @@ def getip():
     return ip
 
 if __name__ == '__main__':
-    while True:
-        try:
-            ip = getip()
-            print ip
-            if current_ip != ip:
-                if ddns(ip):
-                    current_ip = ip
-        except Exception, e:
-            print e
-            pass
-        time.sleep(30)
+    try:
+        ip = getip()
+        print ip
+        if ddns(ip):
+            current_ip = ip
+    except Exception, e:
+        print e
 
