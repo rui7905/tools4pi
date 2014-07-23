@@ -2,8 +2,7 @@
 #-*- coding:utf-8 -*-
 
 import httplib, urllib
-import socket
-import time
+import socket, time
 
 params = dict(
     login_email="dnspod account", # replace with your email
@@ -14,7 +13,21 @@ params = dict(
     sub_domain="pi", # replace with your sub_domain
     record_line="默认",
 )
-current_ip = None
+ip_file = '/var/log/dnspod.ip'
+
+def get_old_ip():
+    try:
+        f = open(ip_file, "rw")
+        old_ip = f.readline()
+        f.close()
+        return old_ip
+    except Exception, e:
+        return None
+
+def save_current_ip(ip):
+   f = open(ip_file, 'w')
+   f.write(ip)
+   f.close()
 
 def ddns(ip):
     params.update(dict(value=ip))
@@ -29,7 +42,7 @@ def ddns(ip):
     conn.close()
     return response.status == 200
 
-def getip():
+def get_current_ip():
     sock = socket.create_connection(('ns1.dnspod.net', 6666))
     ip = sock.recv(16)
     sock.close()
@@ -37,10 +50,12 @@ def getip():
 
 if __name__ == '__main__':
     try:
-        ip = getip()
-        print ip
-        if ddns(ip):
-            current_ip = ip
+        current_ip = get_current_ip()
+        old_ip = get_old_ip()
+        if current_ip != old_ip :
+            if ddns(current_ip):
+                save_current_ip(current_ip)
     except Exception, e:
         print e
+
 
