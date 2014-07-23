@@ -8,9 +8,9 @@ params = dict(
     login_email="dnspod account", # replace with your email
     login_password="dnspod password", # replace with your password
     format="json",
-    domain_id=342154, # replace with your domain_od, can get it by API Domain.List
-    record_id=69302311, # replace with your record_id, can get it by API Record.List
-    sub_domain="pi", # replace with your sub_domain
+    domain_id=111111, # replace with your domain_od, can get it by API Domain.List
+    record_id=222222, # replace with your record_id, can get it by API Record.List
+    sub_domain="www", # replace with your sub_domain
     record_line="默认",
 )
 ip_file = '/var/log/dnspod.ip'
